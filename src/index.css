@@ -61,3 +61,8 @@ code {
   height: 360px !important;
   width: 640px !important;
 }
+
+.thumbnail {
+  width: 320px !important;
+  height: 180px !important;
+}

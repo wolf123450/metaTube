@@ -11,6 +11,11 @@ function VideoList(props) {
         <Card className={"card"}>
             <CardContent>
                 <Skeleton className={"video"} variant="rect" />
+                <img
+                    className={"thumbnail"}
+                    src="https://img.youtube.com/vi/ug50zmP9I7s/mqdefault.jpg"
+                    alt=""
+                />
 
 
                 <Paper elevation='2' className="section">
