@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Container, createMuiTheme, LinearProgress, makeStyles, ThemeProvider } from '@material-ui/core';
-import EmbeddedVideo from './components/EmbeddedVideo.js';
-import axios from 'axios';
+import { Container, createTheme, LinearProgress, makeStyles, ThemeProvider } from '@material-ui/core';
+
+import Main from './components/Main.js';
 
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     type: 'dark',
     background: '#111111'
@@ -33,35 +33,17 @@ const styles = makeStyles({
 
 function App() {
   const classes = styles();
-  const [demo, setDemo] = useState([]);
 
-
-
-  if (!demo) {
-    return (
-      <div className="app">
-        <ThemeProvider theme={theme} >
-          <Container maxWidth="sm" >
-            <LinearProgress></LinearProgress>
-          </Container>
-        </ThemeProvider>
-
-      </div>
-
-    )
-  }
 
   return (
     <div className="app">
-      <ThemeProvider theme={theme} >
-        <Container maxWidth="md" >
-          <EmbeddedVideo/>
-        </Container>
-
-      </ThemeProvider>
-
+        <ThemeProvider theme={theme} >
+            <Container maxWidth="md" >
+                <Main />
+            </Container>
+        </ThemeProvider>
     </div>
-  );
+)
 }
 
 export default App;

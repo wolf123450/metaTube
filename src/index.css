@@ -1,5 +1,5 @@
 body {
-  background-color:#222222;
+  background-color:#111111;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -11,4 +11,53 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.card {
+  min-width: 275;
+  background-Color: #353535;
+  margin-Top: 3rem;
+  margin-Bottom: 3rem;
+}
+
+.bullet {
+  display: inline-block;
+  margin: 0 2px;
+  transform: scale(0.8);
+}
+
+.title {
+  font-Size: 24;
+}
+
+.left {
+  float: left;
+  text-Align: left;
+  vertical-Align: middle;
+}
+
+.right {
+  float: right;
+  text-Align: right;
+  vertical-Align: middle;
+}
+
+.section {
+  background-color: #555555;
+  margin-Bottom: 12;
+  padding: 10;
+}
+
+.skeleton {
+  margin-Left: 15;
+}
+
+.video {
+  background-color: #555555;
+  margin-Left: auto;
+  margin-Right: auto;
+  margin-Top: 3rem;
+  margin-Bottom: 3rem;
+  height: 360px !important;
+  width: 640px !important;
 }

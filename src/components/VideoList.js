@@ -1,43 +1,24 @@
+import React from 'react'
+import { useTheme } from '@material-ui/core/styles';
 import { Card, CardContent, Divider, LinearProgress, makeStyles, Paper, Typography, Box } from '@material-ui/core'
 import Skeleton from '@material-ui/lab/Skeleton';
 
-import React from 'react'
-import ReactPlayer from "react-player"
-
-function EmbeddedVideo(props) {
-    // const { } = props;
-
-    if (false) {
-        return (
-            <Card className={"root"}>
-                <CardContent>
-                    <LinearProgress></LinearProgress>
-                </CardContent>
-            </Card>
-        )
-    }
-    var loading = false;
+function VideoList(props) {
+    const theme = useTheme();
+    var loading = true;
+    //TODO: map a list of 'thumbnails' to skeleton elements
     return (
         <Card className={"card"}>
             <CardContent>
-                {loading ?
-                    <Skeleton className={"video"} variant="rect" />
-                    : <ReactPlayer className={"video"} controls="true" light="true"
-                        url="https://www.youtube.com/watch?v=ug50zmP9I7s"
-                    />}
+                <Skeleton className={"video"} variant="rect" />
+
 
                 <Paper elevation='2' className="section">
                     <Box display='flex' >
                         <Box margin={1}>
                             <Skeleton className={"skeleton left"} variant="circle" width={40} height={40} />
                         </Box>
-                        <Box
-                            margin={1}
-                            width='100%'
-                            display="flex"
-                            flexDirection="column"
-                            justifyContent="center"
-                        >
+                        <Box width='100%'>
                             <Skeleton className={"skeleton right"} variant="rect" width='100%' height='1em'>
                                 <Typography>.</Typography>
                             </Skeleton>
@@ -50,10 +31,7 @@ function EmbeddedVideo(props) {
                 </Paper>
             </CardContent>
         </Card>
-
     )
 }
 
-
-
-export default EmbeddedVideo
+export default VideoList
