@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, createTheme, LinearProgress, makeStyles, ThemeProvider } from '@material-ui/core';
 
 import Main from './components/Main.js';
+import Navbar from './components/Navbar.js';
 
 
 const theme = createTheme({
@@ -39,6 +40,7 @@ function App() {
     <div className="app">
         <ThemeProvider theme={theme} >
             <Container maxWidth="md" >
+                <Navbar />
                 <Main />
             </Container>
         </ThemeProvider>
