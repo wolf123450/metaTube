@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useTheme } from '@material-ui/core/styles';
-import { Card, CardContent, Divider, LinearProgress, makeStyles, Paper, Typography, Box, ImageList, ImageListItem } from '@material-ui/core'
+import { Card, CardContent, Link, ImageList, ImageListItem, ImageListItemBar } from '@material-ui/core'
 import Skeleton from '@material-ui/lab/Skeleton';
 
 function VideoList(props) {
@@ -10,7 +10,8 @@ function VideoList(props) {
     useEffect(() => {
         fetch('/api/videos')
             .then(result => result.json())
-            .then(body => setVideos(body));
+            .then(body => setVideos(body)
+            );
     }, []);
     //TODO: map a list of 'thumbnails' to skeleton elements
     return (
@@ -18,15 +19,29 @@ function VideoList(props) {
             <CardContent>
                 <ImageList cols={2}
                 >
-                
+
                     {videos && videos.map((videoId) => (
-                        <ImageListItem key={videoId} >
-                            <img
-                                className={"thumbnail"}
-                                src={"https://img.youtube.com/vi/" + videoId + "/mqdefault.jpg"}
-                                alt=""
-                            />
+                        <ImageListItem key={videoId.id} >
+                            <Link href={"Video/" + videoId.id}
+                                sx={{
+                                    textAlign: 'center',
+                                    display: 'inline-table',
+                                    position: 'relative'
+                                }}
+                            >
+
+                                <img
+                                    className={"thumbnail"}
+                                    src={"https://img.youtube.com/vi/" + videoId.id + "/mqdefault.jpg"}
+                                    alt=""
+                                />
+                                <ImageListItemBar
+                                    title={videoId.id}
+                                    subtitle={videoId.tags.join(", ")}
+                                />
+                            </Link>
                         </ImageListItem>
+
                     ))}
                 </ImageList>
             </CardContent>

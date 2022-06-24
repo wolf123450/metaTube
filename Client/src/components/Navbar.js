@@ -8,7 +8,7 @@ function Navbar() {
     <AppBar className = {"Navbar"} position="static">
       <Toolbar>
         <Typography variant="h4" className={"logo"}>
-          Navbar
+          OmniTube
         </Typography>
           <div className={"navlinks"}>
             <Link to="/Video" className={"link"}>

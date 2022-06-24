@@ -14,7 +14,7 @@ code {
 }
 
 .card {
-  min-width: 275;
+  min-width: 275px;
   background-Color: #353535;
   margin-Top: 3rem;
   margin-Bottom: 3rem;
@@ -27,7 +27,7 @@ code {
 }
 
 .title {
-  font-Size: 24;
+  font-Size: 24px;
 }
 
 .left {
@@ -44,12 +44,12 @@ code {
 
 .section {
   background-color: #555555;
-  margin-Bottom: 12;
-  padding: 10;
+  margin-Bottom: 12px;
+  padding: 10px;
 }
 
 .skeleton {
-  margin-Left: 15;
+  margin-Left: 15px;
 }
 
 .video {

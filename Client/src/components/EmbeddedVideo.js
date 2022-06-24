@@ -3,9 +3,11 @@ import Skeleton from '@material-ui/lab/Skeleton';
 
 import React from 'react'
 import ReactPlayer from "react-player"
+import {useParams} from 'react-router-dom';
 
 function EmbeddedVideo(props) {
     // const { } = props;
+    const {videoId} = useParams();
 
     if (false) {
         return (
@@ -22,8 +24,8 @@ function EmbeddedVideo(props) {
             <CardContent>
                 {loading ?
                     <Skeleton className={"video"} variant="rect" />
-                    : <ReactPlayer className={"video"} controls="true" light="true"
-                        url="https://www.youtube.com/watch?v=ug50zmP9I7s"
+                    : <ReactPlayer className={"video"} controls="true"
+                        url={"https://www.youtube.com/watch?v=" + videoId}
                     />}
 
                 <Paper elevation='2' className="section">
