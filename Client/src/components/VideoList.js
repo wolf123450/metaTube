@@ -1,17 +1,16 @@
 import React, { useEffect } from 'react';
-import { useTheme } from '@material-ui/core/styles';
-import { Card, CardContent, Link, ImageList, ImageListItem, ImageListItemBar } from '@material-ui/core'
-import Skeleton from '@material-ui/lab/Skeleton';
+import { Card, CardContent, Link, ImageList, ImageListItem, ImageListItemBar, ListSubheader } from '@mui/material'
 
+/**
+ * Yields a list of videos from the /api/videos endpoint.
+ */
 function VideoList(props) {
-    const theme = useTheme();
     const [videos, setVideos] = React.useState(null);
     var loading = true;
     useEffect(() => {
         fetch('/api/videos')
             .then(result => result.json())
-            .then(body => setVideos(body)
-            );
+            .then(body => setVideos(body));
     }, []);
     //TODO: map a list of 'thumbnails' to skeleton elements
     return (
@@ -19,7 +18,6 @@ function VideoList(props) {
             <CardContent>
                 <ImageList cols={2}
                 >
-
                     {videos && videos.map((videoId) => (
                         <ImageListItem key={videoId.id} >
                             <Link href={"Video/" + videoId.id}

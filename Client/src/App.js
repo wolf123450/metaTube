@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Container, createTheme, LinearProgress, makeStyles, ThemeProvider } from '@material-ui/core';
+import { Container, LinearProgress } from '@mui/material';
+import {createTheme, ThemeProvider } from '@mui/material/styles';
 
 import Main from './components/Main.js';
 import Navbar from './components/Navbar.js';
@@ -7,7 +8,7 @@ import Navbar from './components/Navbar.js';
 
 const theme = createTheme({
   palette: {
-    type: 'dark',
+    mode: 'dark',
     background: '#111111'
   },
   typography: {
@@ -26,16 +27,7 @@ const theme = createTheme({
   },
 });
 
-const styles = makeStyles({
-  root: {
-    backgroundColor: '#111111',
-  },
-})
-
 function App() {
-  const classes = styles();
-
-
   return (
     <div className="app">
         <ThemeProvider theme={theme} >

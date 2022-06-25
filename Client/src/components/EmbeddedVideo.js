@@ -1,14 +1,22 @@
-import { Card, CardContent, Divider, LinearProgress, makeStyles, Paper, Typography, Box } from '@material-ui/core'
-import Skeleton from '@material-ui/lab/Skeleton';
+import { Card, CardContent, Divider, LinearProgress, makeStyles, Paper, Typography, Box, Chip, Stack } from '@mui/material'
+import Skeleton from '@mui/lab/Skeleton';
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReactPlayer from "react-player"
-import {useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
+/**
+ * Displays a video from the id at endpoint /video/:videoId
+ */
 function EmbeddedVideo(props) {
     // const { } = props;
-    const {videoId} = useParams();
-
+    const { videoId } = useParams();
+    const [tags, setTags] = React.useState(null);
+    useEffect(() => {
+        fetch('/api/tags/' + videoId)
+            .then(result => result.json())
+            .then(body => setTags(body));
+    }, [videoId]);
     if (false) {
         return (
             <Card className={"root"}>
@@ -29,26 +37,13 @@ function EmbeddedVideo(props) {
                     />}
 
                 <Paper elevation='2' className="section">
-                    <Box display='flex' >
-                        <Box margin={1}>
-                            <Skeleton className={"skeleton left"} variant="circle" width={40} height={40} />
-                        </Box>
-                        <Box
-                            margin={1}
-                            width='100%'
-                            display="flex"
-                            flexDirection="column"
-                            justifyContent="center"
-                        >
-                            <Skeleton className={"skeleton right"} variant="rect" width='100%' height='1em'>
-                                <Typography>.</Typography>
-                            </Skeleton>
-                        </Box>
-                    </Box>
-                    <Divider />
-                    <Skeleton className={"skeleton"} />
-                    <Skeleton className={"skeleton"} />
-                    <Skeleton className={"skeleton"} />
+                    <Stack direction="row" spacing={2}>
+                        {tags &&
+                            tags.tags.length > 0 ?
+                            tags.tags.map((tag) => (<Chip label={tag} />)) :
+                            <Skeleton variant="rectangular" width={"100%"} height={32} />}
+                            <Divider orientation="vertical" flexItem />
+                    </Stack>
                 </Paper>
             </CardContent>
         </Card>

@@ -1,5 +1,5 @@
 
-import { AppBar, Toolbar, Typography, CssBaseline} from '@material-ui/core'
+import { AppBar, Toolbar, Typography, CssBaseline} from '@mui/material'
 import { Link } from "react-router-dom";
 
 
