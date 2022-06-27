@@ -13,8 +13,18 @@ code {
     monospace;
 }
 
+.wrapper {
+  position: relative;
+  padding-top: 56.25%; /* Player ratio: 100 / (1280 / 720) or 16/9*/
+  margin-Left: auto;
+  margin-Right: auto;
+  margin-Top: 3rem;
+  margin-Bottom: 3rem;
+  background-color: #555555;
+}
+
 .card {
-  min-width: 275px;
+  min-width: 400px;
   background-Color: #353535;
   margin-Top: 3rem;
   margin-Bottom: 3rem;
@@ -53,13 +63,11 @@ code {
 }
 
 .video {
-  background-color: #555555;
-  margin-Left: auto;
-  margin-Right: auto;
-  margin-Top: 3rem;
-  margin-Bottom: 3rem;
-  height: 360px !important;
-  width: 640px !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .thumbnail {
@@ -71,8 +79,12 @@ code {
   /* height: 100%; */
 }
 
-.Navbar {
+/* .Navbar {
   background-color: #555555 !important;
+} */
+
+#add-new-tags {
+  width: 100%;
 }
 
 .navlinks {
@@ -87,12 +99,7 @@ code {
   
 .link {
     text-Decoration: none;
-    color: white;
     font-Size: 20px;
     margin-Left: 2rem;
     }
     
-.link:hover {
-      color: yellow;
-      border-Bottom: 1px solid white;
-  }

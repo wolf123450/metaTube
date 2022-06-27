@@ -1,23 +1,29 @@
 
-import { AppBar, Toolbar, Typography, CssBaseline} from '@mui/material'
+import { useTheme } from '@emotion/react';
+import { AppBar, Toolbar, Typography, CssBaseline, Chip, Button } from '@mui/material'
 import { Link } from "react-router-dom";
 
 
 function Navbar() {
-    return (
-    <AppBar className = {"Navbar"} position="static">
+  var theme = useTheme();
+  return (
+    <AppBar className={"Navbar"} position="static">
       <Toolbar>
-        <Typography variant="h4" className={"logo"}>
+        <Typography variant="h4" className={"logo"} color={theme.palette.primary.main}>
           OmniTube
         </Typography>
-          <div className={"navlinks"}>
-            <Link to="/Video" className={"link"}>
+        <div className={"navlinks"}>
+          <Link to="/Video" className={"link"}>
+            <Button variant='outlined'>
               Video
-            </Link>
-            <Link to="/VideoList" className={"link"}>
+            </Button>
+          </Link>
+          <Link to="/VideoList" className={"link"}>
+            <Button variant='outlined'>
               Video Links
-            </Link>
-          </div>
+            </Button>
+          </Link>
+        </div>
       </Toolbar>
     </AppBar>
   );

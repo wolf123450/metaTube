@@ -8,8 +8,7 @@ import Navbar from './components/Navbar.js';
 
 const theme = createTheme({
   palette: {
-    mode: 'dark',
-    background: '#111111'
+    mode: 'dark'
   },
   typography: {
     fontFamily: [
@@ -31,7 +30,7 @@ function App() {
   return (
     <div className="app">
         <ThemeProvider theme={theme} >
-            <Container maxWidth="md" >
+            <Container maxWidth="lg" >
                 <Navbar />
                 <Main />
             </Container>
