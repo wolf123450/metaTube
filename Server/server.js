@@ -31,17 +31,24 @@ app.get('/api/videos', (req, res) => {
 
 app.post('/api/videos', (req, res) => {
   let filterTags = req.body;
-  //Once we have a DB, this should hit the DB and the DB will filter.
-  let filteredVids = vids.filter(
-    (value) => {
-      for (const tag of filterTags) {
-        if (value.tags.includes(tag)){
-          return true;
+  if (filterTags.length == 0) {
+    res.json(vids || []);
+  } else {
+
+    //Once we have a DB, this should hit the DB and the DB will filter.
+    //Currently returns all video that have any tags in filter tags.
+    //Possibly in future add any/all or and/or options, so users can choose.
+    let filteredVids = vids.filter(
+      (value) => {
+        for (const tag of filterTags) {
+          if (value.tags.includes(tag)) {
+            return true;
+          }
         }
-      }
-      return false;
-    })
-  res.json(filteredVids || [])
+        return false;
+      })
+    res.json(filteredVids || [])
+  }
 })
 
 app.get('/api/addTag', (req, res) => {

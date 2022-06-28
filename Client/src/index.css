@@ -54,6 +54,7 @@ code {
 
 .section {
   background-color: #555555;
+  margin-top:12px;
   margin-Bottom: 12px;
   padding: 10px;
 }

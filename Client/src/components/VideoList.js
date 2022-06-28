@@ -7,8 +7,9 @@ import SearchBar from './SearchBar';
  */
 function VideoList(props) {
     const [videos, setVideos] = React.useState(null);
+    const [filterTags, setFilterTags] = React.useState([]);
     var loading = true;
-    useEffect(() => {
+    const loadTagList = () => {
         // fetch('/api/videos')
         //     .then(result => result.json())
         //     .then(body => setVideos(body));
@@ -19,11 +20,13 @@ function VideoList(props) {
                 "x-access-token": "token-value",
             },
             mode: 'cors',
-            body: JSON.stringify(["Videogames", "Paulogia"])
+            body: JSON.stringify(filterTags)
         })
             .then(result => result.json())
-            .then(body => setVideos(body));;
-    }, []);
+            .then(body => setVideos(body));
+    }
+
+    useEffect(loadTagList, [filterTags]);
     //TODO: map a list of 'thumbnails' to skeleton elements
     return (
         <Card className={"card"}>
@@ -31,7 +34,7 @@ function VideoList(props) {
                 <ImageList cols={3} spacing={2}
                 >
                     <ImageListItem key="Subheader" cols={3}>
-                        <SearchBar/>
+                        <SearchBar filterTags={filterTags} setFilterTags={setFilterTags}/>
                     </ImageListItem>
                     {videos && videos.map((videoId) => (
                         <ImageListItem key={videoId.id} sx={{ margin: 2 }}>

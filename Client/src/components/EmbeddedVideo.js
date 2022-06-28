@@ -5,6 +5,7 @@ import Skeleton from '@mui/lab/Skeleton';
 import React, { useEffect } from 'react'
 import ReactPlayer from "react-player"
 import { useParams } from 'react-router-dom';
+import TagList from './TagList';
 
 /**
  * Displays a video from the id at endpoint /video/:videoId
@@ -12,14 +13,24 @@ import { useParams } from 'react-router-dom';
 function EmbeddedVideo(props) {
     // const { } = props;
     const { videoId } = useParams();
-    const [tags, setTags] = React.useState(null);
+    const [videoData, setVideoData] = React.useState({});
+
+    //Lifted state for taglist
     const [newTagValue, setNewTagValue] = React.useState("Add Tag");
 
+    const tagListChanged = (event) => {
+        videoData && videoData.tags.length >= 0 && (videoData.tags = videoData.tags.concat([newTagValue]));
+        setVideoData({ id: videoData.id, tags: videoData.tags });
+        //Hit the endpoint to add a tag to a videoId
+        fetch(`/api/addTag?videoId=${videoId}&tag=${newTagValue}`);
+    };
+
+    const newTagValueChanged = (event) => { setNewTagValue(event.target.value) }
 
     useEffect(() => {
         fetch('/api/tags/' + videoId)
             .then(result => result.json())
-            .then(body => setTags(body));
+            .then(body => setVideoData(body));
     }, [videoId]);
     if (false) {
         return (
@@ -30,7 +41,7 @@ function EmbeddedVideo(props) {
             </Card>
         )
     }
-    
+
     var loading = false;
     return (
         <Card className={"card"}>
@@ -47,42 +58,11 @@ function EmbeddedVideo(props) {
                         />
                     </div>}
 
-                <Paper elevation='2' className="section">
-                    <Grid container spacing={2}>
-                        {tags &&
-                            tags.tags.length > 0 ?
-                            tags.tags.map((tag) => (
-                                <Grid item xs={"auto"}>
-                                    <Chip label={tag} />
-                                </Grid>
-                            )) :
-                            <Skeleton variant="rectangular" width={"100%"} height={32} />}
-                        <Grid item xs={"auto"}>
-                            <Chip
-                                label={
-                                    <InputBase
-                                        hiddenLabel
-                                        id="outlined-basic"
-                                        size="small"
-                                        margin='none'
-                                        sx={{ padding: '0' }}
-                                        variant="standard"
-                                        value={newTagValue}
-                                        onChange={(event) => { setNewTagValue(event.target.value) }}
-                                    />}
-                                onDelete={
-                                    (event) => {
-                                        tags && tags.tags.length >= 0 && (tags.tags = tags.tags.concat([newTagValue]));
-                                        setTags({ id: tags.id, tags: tags.tags });
-                                        fetch(`/api/addTag?videoId=${videoId}&tag=${newTagValue}`);
-                                        console.log(newTagValue);
-                                    }
-                                }
-                                deleteIcon={<AddCircleIcon />} />
-                        </Grid>
-
-                    </Grid>
-                </Paper>
+                <TagList
+                    newTagValue={newTagValue}
+                    tagList={videoData.tags}
+                    newTagValueChanged={newTagValueChanged}
+                    tagListChanged={tagListChanged} />
             </CardContent>
         </Card>
 
