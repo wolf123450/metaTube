@@ -1,7 +1,7 @@
 import { Card, CardContent, Divider, LinearProgress, makeStyles, Paper, Typography, Box, Chip, Stack, Autocomplete, TextField, Icon, Grid, InputBase } from '@mui/material'
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Skeleton from '@mui/lab/Skeleton';
-
+import Enumerable from 'linq';
 import React, { useEffect } from 'react'
 import ReactPlayer from "react-player"
 import { useParams } from 'react-router-dom';
@@ -15,17 +15,25 @@ function EmbeddedVideo(props) {
     const { videoId } = useParams();
     const [videoData, setVideoData] = React.useState({});
 
-    //Lifted state for taglist
-    const [newTagValue, setNewTagValue] = React.useState("Add Tag");
 
-    const tagListChanged = (event) => {
-        videoData && videoData.tags.length >= 0 && (videoData.tags = videoData.tags.concat([newTagValue]));
-        setVideoData({ id: videoData.id, tags: videoData.tags });
-        //Hit the endpoint to add a tag to a videoId
-        fetch(`/api/addTag?videoId=${videoId}&tag=${newTagValue}`);
+    // const tagListChanged = (event) => {
+    //     videoData && videoData.tags.length >= 0 && (videoData.tags = videoData.tags.concat([newTagValue]));
+    //     setVideoData({ id: videoData.id, tags: videoData.tags });
+    //     //Hit the endpoint to add a tag to a videoId
+    //     fetch(`/api/addTag?videoId=${videoId}&tag=${newTagValue}`);
+    // };
+    const tagListChanged = (newTagList) => {
+        if (newTagList.length > videoData.tags.length) {
+            let difference = Enumerable
+                .from(newTagList) //Start with newTagList
+                .where((item) => { return !videoData.tags.includes(item) }) // Where item not in videoData.tags
+                .toArray();
+            for (let item of difference) {
+                fetch(`/api/addTag?videoId=${videoId}&tag=${item}`);
+            }
+        }
+        setVideoData({ id: videoData.id, tags: newTagList })
     };
-
-    const newTagValueChanged = (event) => { setNewTagValue(event.target.value) }
 
     useEffect(() => {
         fetch('/api/tags/' + videoId)
@@ -59,9 +67,7 @@ function EmbeddedVideo(props) {
                     </div>}
 
                 <TagList
-                    newTagValue={newTagValue}
                     tagList={videoData.tags}
-                    newTagValueChanged={newTagValueChanged}
                     tagListChanged={tagListChanged} />
             </CardContent>
         </Card>

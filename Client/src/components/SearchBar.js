@@ -8,19 +8,15 @@ import { useParams } from 'react-router-dom';
 function SearchBar({ filterTags, setFilterTags }) {
     const { videoId } = useParams();
 
-    //Lifted state for taglist
-    const [newTagValue, setNewTagValue] = React.useState("Add Search Tag");
-
-    const tagListChanged = (event) => {
-        let tempTagList = [];
-        filterTags && (tempTagList = filterTags.concat([newTagValue]));
-        setFilterTags(tempTagList);
+    const tagListChanged = (newTagList) => {
+        // let tempTagList = [];
+        // filterTags && (tempTagList = filterTags.concat([newTagValue]));
+        setFilterTags(newTagList);
     };
 
-    const newTagValueChanged = (event) => { setNewTagValue(event.target.value) }
+    
     return (
         <Paper
-            
             className="section"
             elevation='2'
             sx={{  display: 'flex', alignItems: 'center', width: "auto" }}
@@ -28,10 +24,9 @@ function SearchBar({ filterTags, setFilterTags }) {
 
             <TagList
                 sx={{ ml: 1, flex: "1", lineHeight:"normal"}}
-                newTagValue={newTagValue}
                 tagList={filterTags}
-                newTagValueChanged={newTagValueChanged}
-                tagListChanged={tagListChanged} />
+                tagListChanged={tagListChanged} 
+                canDelete/>
 
             <IconButton  aria-label="search">
                 <SearchIcon />

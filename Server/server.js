@@ -4,6 +4,7 @@ const port = 4000
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+//Dev data, until we get a DB running. 
 var vids =
   [
     {
