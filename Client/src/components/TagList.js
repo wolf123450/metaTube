@@ -4,7 +4,7 @@ import Skeleton from '@mui/lab/Skeleton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 function TagList({ tagList, tagListChanged, canDelete, sx }) {
-    const [newTagValue, setNewTagValue] = React.useState("Add Search Tag");
+    const [newTagValue, setNewTagValue] = React.useState("Add Tag");
 
     const newTagValueChanged = (event) => { setNewTagValue(event.target.value) }
 

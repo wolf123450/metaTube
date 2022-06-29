@@ -15,12 +15,12 @@ function Navbar() {
         <div className={"navlinks"}>
           <Link to="/Video" className={"link"}>
             <Button variant='outlined'>
-              Video
+              Add New Video
             </Button>
           </Link>
           <Link to="/VideoList" className={"link"}>
             <Button variant='outlined'>
-              Video Links
+              Search Videos
             </Button>
           </Link>
         </div>
