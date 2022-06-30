@@ -4,7 +4,7 @@ import Skeleton from '@mui/lab/Skeleton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 function TagList({ tagList, tagListChanged, canDelete, sx }) {
-    const [newTagValue, setNewTagValue] = React.useState("Add Tag");
+    const [newTagValue, setNewTagValue] = React.useState("");
 
     const newTagValueChanged = (event) => { setNewTagValue(event.target.value) }
 
@@ -48,12 +48,12 @@ function TagList({ tagList, tagListChanged, canDelete, sx }) {
                 <Grid item xs={"auto"}>
                     <Chip
                         label={
-                            <InputBase
-                                hiddenLabel
+                            <TextField
+                                label="Add Tag"
                                 id="outlined-basic"
                                 size="small"
                                 margin='none'
-                                sx={{ padding: '0' }}
+                                sx={{ padding: '0', height: '65px'}} // 65px might not be correct in all cases, was hand selected to fit line within chip.
                                 variant="standard"
                                 value={newTagValue}
                                 onChange={newTagValueChanged}

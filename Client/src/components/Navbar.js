@@ -13,7 +13,7 @@ function Navbar() {
           OmniTube
         </Typography>
         <div className={"navlinks"}>
-          <Link to="/Video" className={"link"}>
+          <Link to="/AddVideo" className={"link"}>
             <Button variant='outlined'>
               Add New Video
             </Button>

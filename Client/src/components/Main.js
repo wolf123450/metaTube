@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 
 import VideoPage from './VideoPage.js';
 import VideoList from './VideoList.js';
+import AddVideoForm from "./AddVideoForm.js";
 
 function Main(props) {
 
@@ -11,6 +12,7 @@ function Main(props) {
             <Route path="/" element={<Navigate replace to="/VideoList" />} />    
             <Route exact path='/Video/:videoId' element={<VideoPage/>}></Route>
             <Route exact path='/VideoList' element={<VideoList/>}></Route>
+            <Route exact path='/AddVideo' element={<AddVideoForm/>}></Route>
         </Routes>
     );
 }
