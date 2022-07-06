@@ -52,6 +52,13 @@ app.post('/api/videos', (req, res) => {
   }
 })
 
+app.post('/api/addVideo', (req, res) => {
+  let videoData = req.body;
+  vids.push(videoData);
+
+  res.sendStatus(204);
+})
+
 app.get('/api/addTag', (req, res) => {
 
   let videoId = req.query.videoId;
