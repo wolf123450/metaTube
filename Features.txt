@@ -1,0 +1,17 @@
+How can a user find new videos?
+
+Search by category/tag.  How to sort aside from that?
+
+Search multiple tags, conjunctively or disjunctively (and/or)
+--Add tags with an autocomplete, sort by video quantity.
+
+If I am watching a video, click the tag to see videos matching that tag.
+
+Browse all tags by number of videos with that tag.
+
+
+select videos where tag in list of tag names to search
+select tags by number of videos with that tag.
+
+TODO: use fastify instead of express.
+TODO: create mongoose/MongoDB interface
