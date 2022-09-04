@@ -7,10 +7,10 @@ import { useParams } from 'react-router-dom';
  * Yields a list of videos from the /api/videos endpoint.
  */
 function VideoList(props) {
-    // const params = useParams();
+    const params = useParams();
     const [videos, setVideos] = React.useState(null);
     const [filterTags, setFilterTags] = React.useState(params?.filterTags || []);
-    // console.log(params.filterTags);
+    console.log(params.filterTags);
 
     useEffect(() => {
         const loadTagList = async () => {
