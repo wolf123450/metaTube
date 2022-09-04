@@ -13,7 +13,7 @@ const port = 4000
 // app.use(express.json())
 // app.use(express.urlencoded({ extended: true }))
 
-
+//TODO move all db query logic to a service.
 
 //Dev data, until we get a DB running. 
 // var vids =
@@ -36,11 +36,30 @@ const port = 4000
 //     }
 //   ];
 
+// fastify.get('/api/videos', async (req, res) => {
+//   //Return a list of all (top 10-50) videos
+//   const videos = await Video.find({});
+//   const mappedVids = videos.map(({ videoId, tags }) => ({ id: videoId, tags: tags }));
+//   return mappedVids || [];
+// })
 fastify.get('/api/videos', async (req, res) => {
-  //Return a list of all (top 10-50) videos
-  const videos = await Video.find({});
-  const mappedVids = videos.map(({ videoId, tags }) => ({ id: videoId, tags: tags }));
-  return mappedVids || [];
+  //Return a list of videos that have any of the tags sent in the post body.
+  console.log(req.query.filterTags);
+  let filterTags = JSON.parse(req.query.filterTags) || [];
+
+  if (filterTags.length == 0) {
+    const videos = await Video.find({}).lean();
+    const mappedVids = videos.map(({ videoId, tags }) => ({ id: videoId, tags: tags }));
+
+    return mappedVids || [];
+  } else {
+    //Currently returns all video that have any tags in filter tags. 
+    //Possibly in future add any/all or and/or options, so users can choose. use {tags:{$all: filterTags}} to match all
+    const videos = await Video.find({ tags: { $in: filterTags } }).lean();
+    const mappedVids = videos.map(({ videoId, tags }) => ({ id: videoId, tags: tags }));
+
+    return mappedVids || [];
+  }
 })
 
 fastify.post('/api/videos', async (req, res) => {
@@ -77,6 +96,7 @@ fastify.post('/api/addVideo', async (req, res) => {
 
 fastify.get('/api/addTag', async (req, res) => {
   //Add a tag to a video, following /api/addTag?videoId=<videoId>&tag=<tag>
+  //TODO make this a put post or update
 
   let videoId = req.query.videoId;
   let tag = req.query.tag;

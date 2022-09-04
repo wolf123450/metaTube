@@ -1,10 +1,14 @@
 import mongoose from 'mongoose';
-const {Schema, model} = mongoose;
+const { Schema, model } = mongoose;
 
-const videoSchema = new Schema ({
+const videoSchema = new Schema({
     videoId: String,
     tags: [String],
-    createdAt: Date,
+    createdAt: {
+        type: Date,
+        default: () => Date.now(),
+        immutable: true,
+    },
     updatedAt: Date
 }
 

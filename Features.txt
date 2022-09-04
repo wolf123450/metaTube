@@ -13,5 +13,12 @@ Browse all tags by number of videos with that tag.
 select videos where tag in list of tag names to search
 select tags by number of videos with that tag.
 
-TODO: use fastify instead of express.
-TODO: create mongoose/MongoDB interface
+TODO: Convert DB entries to include date & last updated.
+TODO: Add users, and roles/privileges.
+TODO: Delete videos, tags capability.  Who owns a video?
+TODO: Data deduplication. Sets or check before adding.
+TODO: Track number of videos with a specific tag somehow, probably adding a tag model that increments a counter. 
+        (Is that breaking the point of nosql?  Maybe a sql db is the way to go (problems of horizontal scalability))
+TODO: Add sorting/ items returned limit to video list.
+TODO: All/Any tag search mode
+TODO: input validation/slur removal/cleansing
