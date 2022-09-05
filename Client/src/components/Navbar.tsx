@@ -1,10 +1,9 @@
-import { useTheme } from '@emotion/react';
-import { AppBar, Toolbar, Typography, CssBaseline, Chip, Button } from '@mui/material'
+import { AppBar, Toolbar, Typography, CssBaseline, Chip, Button, useTheme, Theme } from '@mui/material'
 import { Link } from "react-router-dom";
 
 
-function Navbar() {
-  var theme = useTheme();
+const Navbar: React.FC = () => {
+  const theme: Theme = useTheme();
   return (
     <AppBar className={"Navbar"} position="static">
       <Toolbar>

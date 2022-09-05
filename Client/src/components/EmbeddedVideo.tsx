@@ -10,19 +10,12 @@ import TagList from './TagList';
 /**
  * Displays a video from the id at endpoint /video/:videoId
  */
-function EmbeddedVideo(props) {
-    // const { } = props;
+const EmbeddedVideo: React.FC = () => {
     const { videoId } = useParams();
-    const [videoData, setVideoData] = React.useState({});
+    const [videoData, setVideoData] = React.useState<Video>({tags:[],id:""});
 
 
-    // const tagListChanged = (event) => {
-    //     videoData && videoData.tags.length >= 0 && (videoData.tags = videoData.tags.concat([newTagValue]));
-    //     setVideoData({ id: videoData.id, tags: videoData.tags });
-    //     //Hit the endpoint to add a tag to a videoId
-    //     fetch(`/api/addTag?videoId=${videoId}&tag=${newTagValue}`);
-    // };
-    const tagListChanged = (newTagList) => {
+    const tagListChanged : (newTagList:string[]) => void = (newTagList) => {
         if (newTagList.length > videoData.tags.length) {
             let difference = Enumerable
                 .from(newTagList) //Start with newTagList
@@ -55,11 +48,11 @@ function EmbeddedVideo(props) {
         <Card className={"card"}>
             <CardContent>
                 {loading ?
-                    <Skeleton className={"video"} variant="rect" />
+                    <Skeleton className={"video"} variant="rectangular" />
                     : <div className='wrapper'>
                         <ReactPlayer
                             className={"video"}
-                            controls="true"
+                            controls={true}
                             width="100%"
                             height="100%"
                             url={"https://www.youtube.com/watch?v=" + videoId}

@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Container, LinearProgress } from '@mui/material';
-import {createTheme, ThemeProvider } from '@mui/material/styles';
+import {createTheme, Theme, ThemeProvider } from '@mui/material/styles';
 
-import Main from './components/Main.js';
-import Navbar from './components/Navbar.js';
+import Main from './components/Main';
+import Navbar from './components/Navbar';
 
 
-const theme = createTheme({
+const theme: Theme = createTheme({
   palette: {
     mode: 'dark'
   },
   typography: {
-    fontFamily: [
-      'Roboto'
-    ],
+    fontFamily: 'Roboto',
     h4: {
       fontWeight: 600,
       fontSize: 28,
@@ -26,7 +24,7 @@ const theme = createTheme({
   },
 });
 
-function App() {
+const App: React.FC = () => {
   return (
     <div className="app">
         <ThemeProvider theme={theme} >

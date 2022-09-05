@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Link, ImageList, ImageListItem, ImageListItemBar } from '@mui/material'
 import SearchBar from './SearchBar';
 import { useParams } from 'react-router-dom';
@@ -6,10 +6,10 @@ import { useParams } from 'react-router-dom';
 /**
  * Yields a list of videos from the /api/videos endpoint.
  */
-function VideoList(props) {
+const VideoList: React.FC = () => {
     const params = useParams();
-    const [videos, setVideos] = React.useState(null);
-    const [filterTags, setFilterTags] = React.useState(params?.filterTags || []);
+    const [videos, setVideos] = useState<Video[]>([]);
+    const [filterTags, setFilterTags] = useState<string[]>(JSON.parse(params.filterTags || '[]'));
     console.log(params.filterTags);
 
     useEffect(() => {
@@ -34,7 +34,7 @@ function VideoList(props) {
     return (
         <Card className={"card"}>
             <CardContent>
-                <ImageList cols={3} spacing={2}
+                <ImageList cols={3} gap={2}
                 >
                     <ImageListItem key="Subheader" cols={3}>
                         <SearchBar filterTags={filterTags} setFilterTags={setFilterTags} />

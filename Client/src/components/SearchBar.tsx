@@ -5,10 +5,15 @@ import SearchIcon from '@mui/icons-material/Search';
 import TagList from './TagList';
 import { useParams } from 'react-router-dom';
 
-function SearchBar({ filterTags, setFilterTags }) {
+interface SearchProps {
+    filterTags: string[],
+    setFilterTags:  React.Dispatch<React.SetStateAction<string[]>>,
+};
+
+const SearchBar: React.FC<SearchProps> = ({ filterTags, setFilterTags}) => {
     const { videoId } = useParams();
 
-    const tagListChanged = (newTagList) => {
+    const tagListChanged: (newTagList:string[]) => void = (newTagList) => {
         // let tempTagList = [];
         // filterTags && (tempTagList = filterTags.concat([newTagValue]));
         setFilterTags(newTagList);
@@ -18,7 +23,7 @@ function SearchBar({ filterTags, setFilterTags }) {
     return (
         <Paper
             className="section"
-            elevation='2'
+            elevation={2}
             sx={{  display: 'flex', alignItems: 'center', width: "auto" }}
         >
 

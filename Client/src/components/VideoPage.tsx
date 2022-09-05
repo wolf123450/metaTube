@@ -1,10 +1,10 @@
 import React from 'react'
 
 
-import EmbeddedVideo from './EmbeddedVideo.js';
+import EmbeddedVideo from './EmbeddedVideo';
 
 //TODO: Move skeleton here.
-function VideoPage(props) {
+const VideoPage: React.FC = () => {
     return (
         <EmbeddedVideo />
     )

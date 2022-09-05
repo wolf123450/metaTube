@@ -2,32 +2,34 @@ import React from 'react'
 import { Button, Card, CardContent, Container, createTheme, Grid, LinearProgress, makeStyles, TextField, ThemeProvider } from '@mui/material';
 
 import { useNavigate } from "react-router-dom";
-import EmbeddedVideo from './EmbeddedVideo.js';
-import TagList from './TagList.js';
+import EmbeddedVideo from './EmbeddedVideo';
+import TagList from './TagList';
 
 //TODO: Move skeleton here.
-function AddVideoForm(props) {
+const AddVideoForm: React.FC = () => {
 
     let navigate = useNavigate();
 
-    const [tagList, setTagList] = React.useState([]);
+    const [tagList, setTagList] = React.useState<string[]>([]);
     const [videoLink, setVideoLink] = React.useState("");
     const [videoId, setVideoId] = React.useState("");
 
-    const tagListChanged = (newTagList) => {
+    const tagListChanged = (newTagList: string[]) => {
         // let tempTagList = [];
         // filterTags && (tempTagList = filterTags.concat([newTagValue]));
         setTagList(newTagList);
     };
 
-    const parseYoutubeLink = (url) => {
-        const VID_REGEX =
+    const parseYoutubeLink = (url:string) => {
+        const VID_REGEX: RegExp =
             /(?:youtube(?:-nocookie)?\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-        const id = url.match(VID_REGEX)[1];
+        const matches: RegExpMatchArray | null = url.match(VID_REGEX);
+        
+        const id: string = matches ? matches[1] : "";
         return id;
     }
 
-    const addVideo = (videoId, taglist) => {
+    const addVideo = ({id:videoId, tags:taglist}: Video) => {
         fetch('/api/addVideo', {
             method: 'POST',
             headers: {
@@ -39,9 +41,9 @@ function AddVideoForm(props) {
         })
     }
 
-    const onSubmitClick = (event) => {
+    const onSubmitClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
         const id = parseYoutubeLink(videoLink);
-        addVideo(id, tagList);
+        addVideo({id, tags:tagList});
         navigate("/Video/" + id);
     }
 
