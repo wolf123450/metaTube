@@ -1,9 +1,14 @@
 //const express = require('express')
 import 'dotenv/config'
+import {google} from 'googleapis'
 // import express from 'express'
 import Fastify from 'fastify'
 import mongoose from './mongooseInterface.js'
 import Video from './models/video.js'
+
+// const keyauth = google.auth.fromAPIKey(process.env.YOUTUBE_API_KEY);
+const youtubeData = google.youtube({version:'v3', auth:process.env.YOUTUBE_API_KEY});
+
 
 // const app = express()
 const fastify = Fastify({
@@ -50,6 +55,10 @@ fastify.get('/api/videos', async (req, res) => {
   if (filterTags.length == 0) {
     const videos = await Video.find({}).lean();
     const mappedVids = videos.map(({ videoId, tags }) => ({ id: videoId, tags: tags }));
+    
+    // const infos = await youtubeData.videos.list({id:mappedVids.map(({id})=>(id)), part:"snippet"});
+    // console.log(JSON.stringify(infos, null, 4));
+
 
     return mappedVids || [];
   } else {
@@ -85,11 +94,24 @@ fastify.post('/api/addVideo', async (req, res) => {
   //Add a video to the DB
   let videoData = req.body;
 
-  const newVideo = new Video({
-    videoId: videoData.id,
-    tags: videoData.tags
-  })
-  await newVideo.save();
+  const infos = await youtubeData.videos.list({id:[videoData.id], part:"snippet"});
+  // console.log(JSON.stringify(infos, null, 4));
+
+
+  // const newVideo = new Video({
+  //   videoId: videoData.id,
+  //   title: infos.data.items[0].snippet.title,
+  //   tags: [...new Set([...videoData.tags, ...infos.data.items[0].snippet.tags])]
+  // })
+  // await newVideo.save();
+  const oldVideo = await Video.findOne({videoId:videoData.id});
+  await Video.updateOne({videoId:videoData.id}, {
+      videoId: videoData.id,
+      title: infos.data.items[0].snippet.title,
+      tags: [...new Set([...videoData.tags, ...infos.data.items[0].snippet.tags, ...oldVideo?.tags])]
+    }, {upsert:true})
+    // await newVideo.save();
+
 
   res.statusCode = 204;
 })

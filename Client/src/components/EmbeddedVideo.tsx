@@ -77,7 +77,7 @@ const EmbeddedVideo: React.FC = () => {
           </div>
         )}
 
-        <TagList tagList={videoData.tags} tagListChanged={tagListChanged} />
+        <TagList tagList={videoData.tags} tagListChanged={tagListChanged} tagLinks />
       </CardContent>
     </Card>
   );

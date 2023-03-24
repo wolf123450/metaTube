@@ -8,33 +8,39 @@ import {
   ImageListItemBar,
 } from "@mui/material";
 import SearchBar from "./SearchBar";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 
 /**
  * Yields a list of videos from the /api/videos endpoint.
  */
 const VideoList: React.FC = () => {
-  const params = useParams();
+  const safeParse: (value: string) => Array<string> = (JsonString) => {
+    // If we run into any problems parsing the json string, then return empty array
+    let parsedObject = [];
+    try {
+      parsedObject = JSON.parse(JsonString || "[]");
+    } catch (error) {}
+    return parsedObject;
+  };
+  const [params, setSearchParams] = useSearchParams();
   const [videos, setVideos] = useState<Video[]>([]);
   const [filterTags, setFilterTags] = useState<string[]>(
-    JSON.parse(params.filterTags || "[]")
+    safeParse(params.has("filterTags") ? params.get("filterTags")! : "[]")
   );
-  console.log(params.filterTags);
+  // const [filterTags, setFilterTags] = useState<string[]>(
+  //   JSON.parse(params.has("filterTags") ? params.get("filterTags")! : "[]")
+  // );
 
   useEffect(() => {
+    setFilterTags(safeParse(params.has("filterTags") ? params.get("filterTags")! : "[]"));
+  }, [params]);
+
+  useEffect(() => {
+    setSearchParams({ filterTags: JSON.stringify(filterTags) });
     const loadTagList = async () => {
       const response = await fetch(
         `/api/videos?filterTags=${JSON.stringify(filterTags)}`
       );
-      // fetch('/api/videos', {
-      //     method: 'POST',
-      //     headers: {
-      //         "Content-Type": "application/json",
-      //         "x-access-token": "token-value",
-      //     },
-      //     mode: 'cors',
-      //     body: JSON.stringify(filterTags)
-      // })
       const json = await response.json();
       setVideos(json);
     };

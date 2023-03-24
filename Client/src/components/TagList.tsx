@@ -15,10 +15,11 @@ import Skeleton from "@mui/lab/Skeleton";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 type TagListProps = {
-  tagList: string[];
-  tagListChanged: (tagList: string[]) => void;
-  canDelete?: any;
-  sx?: SxProps<Theme>;
+  tagList: string[],
+  tagListChanged: (tagList: string[]) => void,
+  canDelete?: any,
+  sx?: SxProps<Theme>,
+  tagLinks?: boolean
 };
 
 const TagList: React.FC<TagListProps> = ({
@@ -26,6 +27,7 @@ const TagList: React.FC<TagListProps> = ({
   tagListChanged,
   canDelete,
   sx,
+  tagLinks
 }) => {
   const [newTagValue, setNewTagValue] = React.useState("");
 
@@ -58,12 +60,13 @@ const TagList: React.FC<TagListProps> = ({
   return (
     <Paper elevation={2} className="section" sx={sx}>
       <Grid container spacing={2}>
-        {tagList && tagList.length >= 0 ? (
+        {tagList?.length >= 0 ? (
           tagList.map((tag) => (
             <Grid item xs={"auto"} key={tag}>
               <Chip
                 label={tag}
                 onDelete={canDelete ? deleteTag(tag) : undefined}
+                {... tagLinks ? {component:"a", href:`/VideoList?filterTags=["${tag}"]`, clickable:true}:{}}
               />
             </Grid>
           ))
