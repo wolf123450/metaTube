@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Video {
+  id        Int        @id @default(autoincrement())
+  videoId   String     @unique @map("video_id") @db.VarChar(11)
+  title     String?
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime?  @updatedAt @map("updated_at")
+  tags      VideoTag[]
+
+  @@map("videos")
+}
+
+model Tag {
+  id     Int        @id @default(autoincrement())
+  name   String     @unique
+  videos VideoTag[]
+
+  @@map("tags")
+}
+
+model VideoTag {
+  videoId Int   @map("video_id")
+  tagId   Int   @map("tag_id")
+  video   Video @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  tag     Tag   @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([videoId, tagId])
+  @@map("video_tags")
+}
