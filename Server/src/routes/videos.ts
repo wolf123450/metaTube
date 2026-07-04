@@ -33,8 +33,41 @@ export async function videoRoutes(fastify: FastifyInstance) {
     return videos.map(formatVideo)
   })
 
-  // POST /api/addVideo stub — implemented in Task 4
-  fastify.post('/api/addVideo', async (_request, reply) => {
-    return reply.status(501).send({ error: 'Not implemented yet' })
+  fastify.post('/api/addVideo', async (request, reply) => {
+    const { id: videoId, tags: userTags = [] } = request.body as {
+      id: string
+      tags: string[]
+    }
+
+    const ytResponse = await youtube.videos.list({ id: [videoId], part: ['snippet'] })
+    const snippet = ytResponse.data.items?.[0]?.snippet
+    const title = snippet?.title ?? ''
+    const ytTags: string[] = snippet?.tags ?? []
+
+    const video = await prisma.video.upsert({
+      where: { videoId },
+      create: { videoId, title },
+      update: { title, updatedAt: new Date() },
+    })
+
+    const allTags = [...new Set([...userTags, ...ytTags])]
+
+    const existingLinks = await prisma.videoTag.findMany({
+      where: { videoId: video.id },
+    })
+    const existingTagIds = new Set(existingLinks.map((l) => l.tagId))
+
+    for (const name of allTags) {
+      const tag = await prisma.tag.upsert({
+        where: { name },
+        create: { name },
+        update: {},
+      })
+      if (!existingTagIds.has(tag.id)) {
+        await prisma.videoTag.create({ data: { videoId: video.id, tagId: tag.id } })
+      }
+    }
+
+    return reply.status(204).send()
   })
 }

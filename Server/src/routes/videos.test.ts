@@ -86,3 +86,36 @@ describe('GET /api/videos', () => {
     )
   })
 })
+
+describe('POST /api/addVideo', () => {
+  let app: ReturnType<typeof Fastify>
+
+  beforeAll(async () => {
+    app = Fastify()
+    await app.register(videoRoutes)
+    await app.ready()
+  })
+
+  afterAll(() => app.close())
+
+  it('upserts video and merges YouTube + user tags, returns 204', async () => {
+    vi.mocked(prisma.video.upsert).mockResolvedValue({
+      id: 1, videoId: 'dQw4w9WgXcQ', title: 'Test Video',
+      createdAt: new Date(), updatedAt: null,
+    } as any)
+    vi.mocked(prisma.tag.upsert).mockResolvedValue({ id: 1, name: 'funny' } as any)
+    vi.mocked(prisma.videoTag.findMany).mockResolvedValue([])
+    vi.mocked(prisma.videoTag.create).mockResolvedValue({} as any)
+
+    const res = await app.inject({
+      method: 'POST',
+      url: '/api/addVideo',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ id: 'dQw4w9WgXcQ', tags: ['myTag'] }),
+    })
+
+    expect(res.statusCode).toBe(204)
+    // YouTube mock returns ['funny', 'test'], user sends ['myTag'] → 3 tag upserts
+    expect(prisma.tag.upsert).toHaveBeenCalledTimes(3)
+  })
+})
