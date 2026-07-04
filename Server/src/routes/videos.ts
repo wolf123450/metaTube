@@ -17,9 +17,18 @@ function formatVideo(video: {
 }
 
 export async function videoRoutes(fastify: FastifyInstance) {
-  fastify.get('/api/videos', async (request) => {
+  fastify.get('/api/videos', async (request, reply) => {
     const { filterTags: raw } = request.query as { filterTags?: string }
-    const filterTags: string[] = raw ? JSON.parse(raw) : []
+    let filterTags: string[] = []
+    if (raw) {
+      try {
+        const parsed: unknown = JSON.parse(raw)
+        if (!Array.isArray(parsed)) throw new Error()
+        filterTags = parsed as string[]
+      } catch {
+        return reply.status(400).send({ error: 'filterTags must be a JSON array' })
+      }
+    }
 
     const where = filterTags.length
       ? { tags: { some: { tag: { name: { in: filterTags } } } } }
@@ -34,10 +43,12 @@ export async function videoRoutes(fastify: FastifyInstance) {
   })
 
   fastify.post('/api/addVideo', async (request, reply) => {
-    const { id: videoId, tags: userTags = [] } = request.body as {
-      id: string
-      tags: string[]
+    const body = request.body as { id?: unknown; tags?: unknown } | null
+    if (!body || typeof body.id !== 'string' || !body.id) {
+      return reply.status(400).send({ error: 'id (string) is required' })
     }
+    const videoId = body.id
+    const userTags: string[] = Array.isArray(body.tags) ? (body.tags as string[]) : []
 
     const ytResponse = await youtube.videos.list({ id: [videoId], part: ['snippet'] })
     const snippet = ytResponse.data.items?.[0]?.snippet

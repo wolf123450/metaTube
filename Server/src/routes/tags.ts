@@ -17,7 +17,11 @@ export async function tagRoutes(fastify: FastifyInstance) {
 
   fastify.post('/api/tags/:videoId', async (request, reply) => {
     const { videoId } = request.params as { videoId: string }
-    const { tag: tagName } = request.body as { tag: string }
+    const body = request.body as { tag?: unknown } | null
+    if (!body || typeof body.tag !== 'string' || !body.tag) {
+      return reply.status(400).send({ error: 'tag (string) is required' })
+    }
+    const tagName = body.tag
 
     const video = await prisma.video.findUnique({ where: { videoId } })
     if (!video) return reply.status(404).send({ error: 'Not found' })

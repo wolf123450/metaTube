@@ -2,20 +2,3 @@ services:
   db:
     ports:
       - "5432:5432"
-
-  server:
-    build:
-      target: base
-    volumes:
-      - ./Server/src:/app/src
-    command: npx tsx --watch src/server.ts
-
-  client:
-    build:
-      context: ./Client
-      target: build
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./Client/src:/app/src
-    command: npx vite --host
