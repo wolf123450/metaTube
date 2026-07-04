@@ -6,7 +6,6 @@ import {
 } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Skeleton from "@mui/lab/Skeleton";
-import Enumerable from "linq";
 import React, { useEffect } from "react";
 import ReactPlayer from "react-player";
 import { useParams } from "react-router-dom";
@@ -21,13 +20,13 @@ const EmbeddedVideo: React.FC = () => {
 
   const tagListChanged: (newTagList: string[]) => void = (newTagList) => {
     if (newTagList.length > videoData.tags.length) {
-      let difference = Enumerable.from(newTagList) //Start with newTagList
-        .where((item) => {
-          return !videoData.tags.includes(item);
-        }) // Where item not in videoData.tags
-        .toArray();
-      for (let item of difference) {
-        fetch(`/api/addTag?videoId=${videoId}&tag=${item}`);
+      const newTags = newTagList.filter((item) => !videoData.tags.includes(item));
+      for (const tag of newTags) {
+        fetch(`/api/tags/${videoId}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tag }),
+        });
       }
     }
     setVideoData({ id: videoData.id, tags: newTagList });
