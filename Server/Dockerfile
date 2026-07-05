@@ -28,5 +28,5 @@ COPY --from=base /app/prisma ./prisma
 
 EXPOSE 4000
 
-# Run migrations then start
-CMD npx prisma migrate deploy && node dist/server.js
+# Push schema to DB then start
+CMD npx prisma db push --accept-data-loss && node dist/server.js
