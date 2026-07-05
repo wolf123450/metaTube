@@ -19,6 +19,9 @@ RUN npm ci && npm run build && npm prune --omit=dev
 FROM node:22-alpine AS runtime
 WORKDIR /app
 
+# Prisma migration engine requires OpenSSL on Alpine
+RUN apk add --no-cache openssl
+
 COPY --from=base /app/node_modules ./node_modules
 COPY --from=base /app/dist ./dist
 COPY --from=base /app/prisma ./prisma
